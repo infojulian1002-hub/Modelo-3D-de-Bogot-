@@ -113,6 +113,12 @@ En cada entrada se indica quién hizo el trabajo: **OpenCode** o **Claude**, un 
 - **QGIS:** `qgis/zona_centro.qgz` y `docs/renders/zona_mapa_qgis.png`.
 - **Blender:** `models/zona/bogota_centro.glb` (0,65 MB), `docs/renders/zona_aerea.png` y el sobrevuelo. El video tiene 240 cuadros a 24 fps (10 s), en `docs/renders/sobrevuelo.mp4`.
 
+### 3 nov, 20:45: publicación y revisión
+- **Autor:** Claude; el estudiante activó GitHub Pages en la configuración del repositorio (Source: GitHub Actions).
+- **Resultado:** el flujo de GitHub Actions terminó bien y el sitio responde en la dirección publicada.
+- **Problema encontrado al revisar con relieve real:** puntos negros en los techos. El GLB no trae normales y three.js las derivaba de coordenadas Mercator muy pequeñas. Ahora se calculan al cargar el modelo.
+- **Comprobación de elevación:** en cuatro puntos, el terreno del mapa y el DEM usado en Blender difieren menos de 2 m.
+
 ## 4. Lecciones para gastar menos
 1. Una tarea por sesión: la sesión larga releyó su contexto en cada paso, y por eso acumuló más de 25 millones de tokens de caché.
 2. Planear con un agente de solo lectura antes de ejecutar.
