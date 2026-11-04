@@ -1,0 +1,66 @@
+name: Deploy a GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Pages
+        uses: actions/configure-pages@v5
+
+      - name: Copiar archivos a _site
+        run: |
+          set -euo pipefail
+          rm -rf _site
+          mkdir -p _site
+          paths=(
+            "index.html"
+            "main.js"
+            "style.css"
+            "vendor"
+            "models/zona/index.json"
+            "models/zona/bogota_centro.glb"
+            "layers"
+            "docs/renders"
+          )
+          for path in "${paths[@]}"; do
+            if [ ! -e "$path" ]; then
+              echo "::error::Falta el archivo o directorio requerido: $path"
+              exit 1
+            fi
+            dest="_site/$(dirname "$path")"
+            mkdir -p "$dest"
+            cp -R "$path" "$dest/"
+          done
+
+      - name: Subir artefacto
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Desplegar en GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

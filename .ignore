@@ -1,0 +1,7 @@
+data/
+renders/
+models/*.blend
+models/*.blend1
+docs/renders/*.png
+models/
+vendor/

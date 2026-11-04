@@ -1,0 +1,15 @@
+{
+  "sistema": "x=este, y=norte, z=altura; GLB exportado con Y-up",
+  "bloques": {
+    "CENTRO": {
+      "archivo": "models/zona/bogota_centro.glb",
+      "origen": {
+        "lat": 4.609000162457896,
+        "lon": -74.06999983213728,
+        "z_m": 2593.90234375
+      },
+      "edificios": 19429,
+      "tamano_mb": 0.65
+    }
+  }
+}

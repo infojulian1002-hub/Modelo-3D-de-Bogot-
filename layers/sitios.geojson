@@ -1,0 +1,86 @@
+{
+  "type": "FeatureCollection",
+  "name": "sitios_centro_bogota",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Monserrate",
+        "categoria": "Mirador",
+        "descripcion": "Cerro tutelar a 3.152 m. Vista panorámica de Bogotá y la sabana.",
+        "importancia": 3
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0558,
+          4.6058
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Plaza de Bolívar",
+        "categoria": "Histórico",
+        "descripcion": "Centro político y fundacional de Bogotá, rodeado por edificios republicanos.",
+        "importancia": 3
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.076,
+          4.5981
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "La Candelaria",
+        "categoria": "Histórico",
+        "descripcion": "Barrio colonial con calles estrechas, teatros y museos.",
+        "importancia": 2
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0721,
+          4.5967
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Museo del Oro",
+        "categoria": "Cultural",
+        "descripcion": "Colección de orfebrería prehispánica considerada la más importante del mundo.",
+        "importancia": 2
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.072,
+          4.6019
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Torre Colpatria",
+        "categoria": "Arquitectura",
+        "descripcion": "Rascacielos de 196 m y uno de los hitos del skyline bogotano.",
+        "importancia": 2
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0705,
+          4.6116
+        ]
+      }
+    }
+  ]
+}

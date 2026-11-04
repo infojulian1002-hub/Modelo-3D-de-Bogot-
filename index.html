@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#141a1f" />
+  <meta name="description" content="Modelo 3D interactivo del centro de Bogotá construido con QGIS, Blender y Overture Maps. 19.429 edificios, terreno y sobrevuelo." />
+  <title>Bogotá 3D · centro</title>
+  <link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="map" aria-label="Mapa 3D interactivo de Bogotá"></div>
+
+  <button id="panel-toggle" class="panel-toggle" aria-controls="panel" aria-expanded="true">
+    <span aria-hidden="true">☰</span>
+    <span class="sr-only">Mostrar u ocultar panel</span>
+  </button>
+
+  <aside id="panel" class="panel" aria-label="Controles del mapa">
+    <header class="panel-header">
+      <p class="eyebrow">QGIS · Blender · Overture Maps</p>
+      <h1>Bogotá <span>3D</span></h1>
+      <p class="lede">El centro de Bogotá, de La Candelaria a Monserrate: 3,3 × 3,5 km con 19.429 edificios sobre el terreno real.</p>
+    </header>
+
+    <div class="acciones">
+      <button id="btn-sobrevuelo" class="btn btn-primary" type="button">
+        <span aria-hidden="true">▶</span> Sobrevuelo
+      </button>
+      <button id="btn-detener" class="btn btn-ghost" type="button" hidden>
+        <span aria-hidden="true">■</span> Detener
+      </button>
+      <button id="btn-video" class="btn btn-ghost" type="button">
+        <span aria-hidden="true">🎬</span> Ver video
+      </button>
+    </div>
+
+    <section class="stats" aria-label="Cifras del modelo">
+      <div><strong>19.429</strong><span>edificios</span></div>
+      <div><strong>330</strong><span>alturas reales</span></div>
+      <div><strong>3.992</strong><span>vías</span></div>
+      <div><strong>20 m</strong><span>resolución DEM</span></div>
+    </section>
+
+    <section class="controles" aria-label="Capas y ajustes">
+      <h2>Capas</h2>
+
+      <label class="switch">
+        <input id="toggle-modelo" type="checkbox" checked />
+        <span class="switch-ui" aria-hidden="true"></span>
+        <span>Modelo 3D (GLB)</span>
+      </label>
+
+      <label class="switch">
+        <input id="toggle-terreno" type="checkbox" checked />
+        <span class="switch-ui" aria-hidden="true"></span>
+        <span>Terreno y relieve</span>
+      </label>
+
+      <label class="switch">
+        <input id="toggle-sitios" type="checkbox" checked />
+        <span class="switch-ui" aria-hidden="true"></span>
+        <span>Sitios de interés</span>
+      </label>
+
+      <label class="switch">
+        <input id="toggle-osm" type="checkbox" />
+        <span class="switch-ui" aria-hidden="true"></span>
+        <span>Edificios OSM (respaldo)</span>
+      </label>
+
+      <label class="rango">
+        <span>Exageración del terreno <output id="valor-exageracion">1,0×</output></span>
+        <input id="exageracion" type="range" min="1" max="2.2" step="0.1" value="1" />
+      </label>
+    </section>
+
+    <section class="leyenda" aria-label="Leyenda de alturas">
+      <h2>Altura de los edificios</h2>
+      <div class="rampa" aria-hidden="true"></div>
+      <div class="rampa-texto"><span>6 m</span><span>18 m</span><span>40 m</span><span>60+ m</span></div>
+      <p class="nota">Solo 330 de los 19.429 edificios tienen altura real en Overture; el resto es una estimación según el área de la huella, no un dato medido.</p>
+    </section>
+
+    <footer class="panel-footer">
+      <a id="btn-reset" class="btn btn-link" href="#map">Restablecer vista</a>
+      <a class="btn btn-link" href="models/zona/bogota_centro.glb" download>Descargar modelo GLB</a>
+      <p>Datos: Overture Maps · OpenStreetMap · OpenFreeMap · AWS Terrain Tiles. Procesado con QGIS 3.42 y Blender 5.2.</p>
+    </footer>
+  </aside>
+
+  <div id="cargando" class="cargando" role="status" aria-live="polite">
+    <div class="cargando-caja">
+      <div class="spinner" aria-hidden="true"></div>
+      <p id="cargando-texto">Cargando el modelo de Bogotá…</p>
+      <div class="barra"><span id="barra-progreso"></span></div>
+    </div>
+  </div>
+
+  <div id="aviso" class="aviso" role="status" aria-live="polite" hidden></div>
+
+  <dialog id="video-dialog" class="video-dialog">
+    <div class="video-caja">
+      <button id="cerrar-video" class="cerrar" type="button" aria-label="Cerrar video">×</button>
+      <h2>Sobrevuelo · Blender</h2>
+      <p>Recorrido por el centro hasta los cerros orientales. Render Workbench a 960×540, 24 fps.</p>
+      <video id="video-sobrevuelo" controls preload="metadata" playsinline>
+        <source src="docs/renders/sobrevuelo.mp4" type="video/mp4" />
+        Tu navegador no puede reproducir el video.
+      </video>
+      <p class="video-nota">El botón «Sobrevuelo» del panel también activa un recorrido interactivo sobre el mapa.</p>
+    </div>
+  </dialog>
+
+  <noscript>
+    <div class="noscript">Este mapa necesita JavaScript para cargar MapLibre, three.js y el modelo GLB.</div>
+  </noscript>
+
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script type="module" src="main.js?v=15"></script>
+</body>
+</html>

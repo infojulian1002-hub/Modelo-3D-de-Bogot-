@@ -1,0 +1,12 @@
+data/
+/renders/
+qgis/*.qgz~
+*.blend
+*.blend1
+__pycache__/
+node_modules/
+_site/
+prueba_glb.html
+scripts/print_args.py
+models/bloques/
+models/bogota_completo.glb
