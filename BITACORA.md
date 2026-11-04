@@ -102,7 +102,7 @@ En cada entrada se indica quién hizo el trabajo: **OpenCode** o **Claude**, un 
   - Las vías, el agua y las zonas verdes de los bloques antiguos estaban en cota absoluta; en la zona nueva son relativas al origen.
   - El decodificador Draco ahora se sirve desde `vendor/draco/`.
   - Se quitaron los elementos de diagnóstico.
-- **Verificación:** prueba en un navegador sin interfaz, con red simulada y terreno plano. El mapa publicado se revisó aparte; ver la sección 5.
+- **Verificación:** prueba en un navegador sin interfaz, con red simulada y terreno plano.
 
 ### 3 nov, 20:18: README
 - **Autor:** OpenCode, agente Build.
@@ -111,7 +111,7 @@ En cada entrada se indica quién hizo el trabajo: **OpenCode** o **Claude**, un 
 ### 3 nov, 20:10 en adelante: QGIS y Blender en la zona pequeña
 - **Autor:** Claude, ejecutando QGIS 3.42 y Blender 5.2 en el PC.
 - **QGIS:** `qgis/zona_centro.qgz` y `docs/renders/zona_mapa_qgis.png`.
-- **Blender:** `models/zona/bogota_centro.glb` (0,65 MB), `docs/renders/zona_aerea.png` y el sobrevuelo. Cada cuadro tardó entre 10 y 22 s, así que se renderizó uno de cada dos: 120 cuadros a 12 fps, unos 10 s de video.
+- **Blender:** `models/zona/bogota_centro.glb` (0,65 MB), `docs/renders/zona_aerea.png` y el sobrevuelo. El video tiene 240 cuadros a 24 fps (10 s), en `docs/renders/sobrevuelo.mp4`.
 
 ## 4. Lecciones para gastar menos
 1. Una tarea por sesión: la sesión larga releyó su contexto en cada paso, y por eso acumuló más de 25 millones de tokens de caché.
@@ -124,5 +124,5 @@ En cada entrada se indica quién hizo el trabajo: **OpenCode** o **Claude**, un 
 ## 5. Limitaciones
 - Solo 330 de los 19.429 edificios tienen altura real. Las demás son estimaciones según el área de la huella, no datos medidos.
 - La zona es pequeña y no cubre toda Bogotá.
-- La fusión de edificios, el DEM de 20 m y la simplificación de geometrías no se validaron contra levantamientos de campo.
+- Los datos de Overture, el DEM de 20 m y las geometrías simplificadas no se validaron contra levantamientos de campo.
 - Parte del trabajo no se hizo con OpenCode; está marcado en cada entrada.
