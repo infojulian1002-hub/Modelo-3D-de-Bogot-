@@ -159,23 +159,33 @@ class CapaBogota {
       objeto.castShadow = false;
       objeto.receiveShadow = false;
 
+      // El GLB no trae normales. Si three.js las deriva en el shader, las coordenadas
+      // Mercator (muy pequeñas) las vuelven ruido y salen puntos negros en los techos.
+      objeto.geometry = objeto.geometry.toNonIndexed();
+      objeto.geometry.computeVertexNormals();
+
       const nombre = (objeto.name || "").toLowerCase();
       const materiales = Array.isArray(objeto.material) ? objeto.material : [objeto.material];
       for (const material of materiales) {
         if (!material) continue;
+        material.flatShading = false;
+        material.needsUpdate = true;
         material.metalness = 0.0;
         material.roughness = 0.9;
         if (nombre.includes("via")) {
           material.color.set("#2f2f2f");
+          material.side = THREE.DoubleSide;
           material.roughness = 0.95;
         } else if (nombre.includes("agua")) {
           material.color.set("#3d7fae");
+          material.side = THREE.DoubleSide;
           material.emissive.set("#3d7fae");
           material.emissiveIntensity = 0.6;
           material.roughness = 0.35;
           material.metalness = 0.1;
         } else if (nombre.includes("verde")) {
           material.color.set("#5e8f4e");
+          material.side = THREE.DoubleSide;
           material.emissive.set("#5e8f4e");
           material.emissiveIntensity = 0.6;
           material.roughness = 0.95;
