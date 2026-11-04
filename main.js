@@ -170,10 +170,14 @@ class CapaBogota {
           material.roughness = 0.95;
         } else if (nombre.includes("agua")) {
           material.color.set("#3d7fae");
+          material.emissive.set("#3d7fae");
+          material.emissiveIntensity = 0.6;
           material.roughness = 0.35;
           material.metalness = 0.1;
         } else if (nombre.includes("verde")) {
           material.color.set("#5e8f4e");
+          material.emissive.set("#5e8f4e");
+          material.emissiveIntensity = 0.6;
           material.roughness = 0.95;
         }
       }
